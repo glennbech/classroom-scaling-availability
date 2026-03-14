@@ -36,21 +36,28 @@ This setup demonstrates a modern, serverless architecture for deploying a web ap
 
 # Part 1 Intro to Elastic Container Service. Load balancers, Services and tasks
 
-## Log in to your AWS Cloud9  environment
+## Set up your GitHub Codespaces environment
 
-Go to the AWS Management Console (https://244530008913.signin.aws.amazon.com/console)
+### Launch Codespaces
 
-* Start by entering your username and password given during class.
-* Click the "Sign In" button to proceed.
-* Once logged in, you'll land on the AWS Management Console home page.
+* Navigate to this repository on GitHub
+* Click the green "Code" button
+* Select the "Codespaces" tab
+* Click "Create codespace on main" (or select an existing codespace if you have one)
+* Wait for the environment to build and start (this may take a minute or two the first time)
+* You'll be presented with a VS Code interface in your browser
+
+**Note:** GitHub provides 60 hours of free Codespaces usage per month for students and personal accounts.
+
+### Access AWS Console
+
+You'll need to access the AWS Management Console to view and manage ECS resources:
+
+* Go to the AWS Management Console (https://244530008913.signin.aws.amazon.com/console)
+* Start by entering your username and password given during class
+* Click the "Sign In" button to proceed
+* Once logged in, you'll land on the AWS Management Console home page
 * Switch to the Stockholm region (eu-north-1) - Look for a region name on the top menu
-* Look to the top left corner for a navigation menu and click on the "Services" button.
-* Within the services menu, find and select "Cloud9".
-* This action will open the Cloud9 dashboard.
-* Here, you'll see a list of the environments available to you.
-* Choose your specific environment.
-* Take some time to explore and experiment with Cloud9, getting familiar with its features and 
-  interface.
 
 ## Inspect your load balancer and ECS cluster 
 
@@ -90,8 +97,8 @@ K6 is an open-source load testing tool designed for developers to test the perfo
 
 ## Clone this repo
 
-* Go to your Cloud 9 environment 
-* Clone this repository with GIT, Use the Terminal located on the bottom of the screen.
+* In your Codespaces environment, open the terminal (if not already open, use Terminal → New Terminal from the menu)
+* Clone this repository with GIT using the terminal:
 
 ```text
 git clone https://github.com/glennbechdevops/scaling-availability
@@ -99,7 +106,7 @@ git clone https://github.com/glennbechdevops/scaling-availability
 
 ## Run a K6 load test against your own load balancer
 
-* In your cloud9 environment, using the file navigator on the left side. locate the file called `scaling-availability/k6/simpletest.js`
+* In your Codespaces VS Code editor, using the file explorer on the left side, locate the file called `scaling-availability/k6/simpletest.js`
 * Modify the statement ```http.get("");``` and insert your load balancer domain name, prefixed with ```http://``` example: http://glennbech-alb-12121212.eu-west-1.elb.amazonaws.com
 
 In your terminal,navigate to the folder with the load tests by using the following commands 
@@ -176,9 +183,9 @@ Your report might look something like this
 * Once you have made the desired changes, review the configuration details and click the "Update" button to save the changes.
 * Wait for a few seconds for the service to update, and then verify that the desired number of tasks are running as expected. You can check the service status and the tasks' status in the ECS dashboard.
 
-## Re-start load tests 
+## Re-start load tests
 
-From your Cloud9 environment, run another test for 10 minutes
+From your Codespaces terminal, run another test for 10 minutes
 ```shell
  docker run --rm -i grafana/k6 run --vus 10 --duration 5m - <simpletest.js
 ```
@@ -220,7 +227,7 @@ Your report might look something like this
 
 * Look more into Ramp ups and how to use options https://k6.io/docs/get-started/running-k6/
 * See you can break the system, reduce the capacity of containers if needed
-* How much can you stress the application? What will break first? Cloud 9 or the app?
+* How much can you stress the application? What will break first? Codespaces or the app?
 * Sjekk ut hvordan man kan integrere med Cloud løsningen her ; https://k6.io/docs/cloud/creating-and-running-a-test/cloud-tests-from-the-cli/
 
 # Conclusion 
