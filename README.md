@@ -218,13 +218,76 @@ Your report might look something like this
      vus_max........................: 10     min=10     max=10```
 ```
 
-# Extra tasks 
+# Part 3 - Optional: Configure Auto Scaling
 
+So far you've been manually changing the desired task count. Now let's configure automatic scaling based on traffic load.
+
+## Understanding Target Tracking Auto Scaling
+
+**Target tracking** is an auto scaling strategy where AWS automatically adjusts the number of tasks to keep a specific metric at a target value. If the metric goes above the target, AWS adds more tasks. If it drops below, AWS removes tasks.
+
+**Why use ALB Request Count instead of CPU or Memory?**
+
+The 2048 game is a static web page served by nginx. Even under heavy traffic, it uses very little CPU and memory - nginx is extremely efficient at serving static files. If we used CPU or memory as our scaling metric, we'd never trigger auto scaling because those metrics would stay low even when the system is overloaded with requests.
+
+Instead, we use **ALB Request Count Per Target** - this metric tracks how many requests each task is handling. This gives us a much better indicator of actual load for a static web application.
+
+## Set up Auto Scaling in the AWS Console
+
+* Navigate to your ECS cluster in the AWS Console
+* Click on your service name
+* Click the "Auto Scaling" tab
+* Click "Create" under "Service auto scaling"
+
+Configure the capacity settings:
+* **Minimum number of tasks**: 1
+* **Desired number of tasks**: 1
+* **Maximum number of tasks**: 4
+
+Click "Next"
+
+## Add a Scaling Policy
+
+* Click "Add scaling policy"
+* Configure the policy:
+  - **Policy name**: `target-tracking-requests`
+  - **Policy type**: Target tracking
+  - **ECS service metric**: `ALBRequestCountPerTarget`
+  - **Target value**: 500 (this means 500 requests per target per minute)
+  - **Scale-out cooldown**: 60 seconds
+  - **Scale-in cooldown**: 60 seconds
+
+* Click "Create"
+
+## Test Auto Scaling with Load
+
+Now run a longer, more intense load test to trigger auto scaling:
+
+```shell
+docker run --rm -i grafana/k6 run --vus 50 --duration 10m - <simpletest.js
+```
+
+While the test is running:
+* Watch the "Auto Scaling" tab in your ECS service
+* You should see the "Desired tasks" count increase automatically as load builds up
+* New tasks will be launched automatically
+* After the test completes, watch tasks scale back down after the cooldown period
+
+## Questions to Consider
+
+* How long did it take for new tasks to start after load increased?
+* Did the system scale enough to handle the load without errors?
+* What happens to response times during scale-out events?
+* Try adjusting the target value - what happens if you set it to 250 or 1000 instead?
+* What would happen if you increased max tasks to 10?
+
+# Extra tasks
 
 * Look more into Ramp ups and how to use options https://k6.io/docs/get-started/running-k6/
 * See if you can break the system by reducing the capacity of containers
 * How much can you stress the application? What will break first? Codespaces or the app?
 * Check out how to integrate with K6 Cloud for more advanced load testing: https://k6.io/docs/cloud/creating-and-running-a-test/cloud-tests-from-the-cli/
+* Try different auto scaling metrics like CPU utilization - what happens?
 
 # Conclusion
 
