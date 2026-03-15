@@ -248,7 +248,7 @@ Instead, we use **ALB Request Count Per Target** - this metric tracks how many r
 ## Add a Scaling Policy
 
 * In the same "Auto Scaling" tab, scroll down to "Scaling policies"
-* Click "Create"
+* Click "Create scaling policy"
 * Configure the policy:
   - **Policy name**: `target-tracking-requests`
   - **Policy type**: Target tracking
