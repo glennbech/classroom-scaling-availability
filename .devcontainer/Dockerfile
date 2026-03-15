@@ -2,6 +2,9 @@
 # Use a base image that includes Docker (Docker in Docker setup)
 FROM mcr.microsoft.com/devcontainers/python:dev-3.9-bookworm
 
+# Remove Yarn repository to fix GPG key issues
+RUN rm -f /etc/apt/sources.list.d/yarn.list
+
 # Install Terraform
 RUN TERRAFORM_VERSION=1.7.5 \
     && curl -fsSL "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip" -o terraform.zip \
