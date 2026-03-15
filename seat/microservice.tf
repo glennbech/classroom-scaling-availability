@@ -27,7 +27,7 @@ resource "aws_ecs_task_definition" "task" {
     {
 
       name         = "mycontainer",
-      image        = "katacoda/docker-http-server",
+      image        = "alexwhen/docker-2048",
       portMappings = [
         {
           containerPort = 80,
