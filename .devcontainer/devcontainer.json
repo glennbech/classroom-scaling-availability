@@ -4,7 +4,7 @@
     "dockerfile": "Dockerfile"
   },
   "features": {
-    "docker-in-docker": {}
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
   "hostRequirements": {
     "cpus": 4,
