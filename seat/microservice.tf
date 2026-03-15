@@ -27,7 +27,7 @@ resource "aws_ecs_task_definition" "task" {
     {
 
       name         = "mycontainer",
-      image        = "alexwhen/docker-2048",
+      image        = "nginxdemos/hello",
       portMappings = [
         {
           containerPort = 80,

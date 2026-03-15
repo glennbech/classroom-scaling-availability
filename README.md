@@ -16,7 +16,7 @@ In this exercise we will look into ...
 
 ## Description of the infrastructure made for you in the lab 
 
-This Terraform configuration sets up a serverless infrastructure on AWS to run a containerized application using Amazon ECS and Fargate. The core goal is to deploy a simple web application (`alexwhen/docker-2048` - an interactive 2048 game) that is publicly accessible through an Application Load Balancer (ALB).
+This Terraform configuration sets up a serverless infrastructure on AWS to run a containerized application using Amazon ECS and Fargate. The core goal is to deploy a simple web application (`nginxdemos/hello` - a demo page that displays server and request information) that is publicly accessible through an Application Load Balancer (ALB).
 
 The infrastructure uses an existing Virtual Private Cloud (VPC) and its subnets. The ECS cluster manages the containerized workload. A task definition specifies how the container is configured, including its compute resources, networking mode, and the image to deploy. The Fargate launch type handles server management automatically, allowing the container to run without provisioning or maintaining underlying compute instances.
 
@@ -82,7 +82,7 @@ Important! IF prompted - Please make sure you have checked the "New ECS Experien
 * Find the value for the "DNS name"
 * Test the setup by entering the load balancer's DNS in your browser's address bar.
 
-You should see the 2048 game! Feel free to try it out, but don't get too distracted - we have a lab to complete! 🎮
+You should see a demo page showing server information, hostname, and request details. Notice the hostname - this will be useful later when we have multiple tasks running!
 
 ## Check robustnes! Stop  a task while the test is running 
 
@@ -230,7 +230,7 @@ So far you've been manually changing the desired task count. Now let's configure
 
 **Why use ALB Request Count instead of CPU or Memory?**
 
-The 2048 game is a static web page served by nginx. Even under heavy traffic, it uses very little CPU and memory - nginx is extremely efficient at serving static files. If we used CPU or memory as our scaling metric, we'd never trigger auto scaling because those metrics would stay low even when the system is overloaded with requests.
+This demo application is a simple static page served by nginx. Even under heavy traffic, it uses very little CPU and memory - nginx is extremely efficient at serving static content. If we used CPU or memory as our scaling metric, we'd never trigger auto scaling because those metrics would stay low even when the system is overloaded with requests.
 
 Instead, we use **ALB Request Count Per Target** - this metric tracks how many requests each task is handling. This gives us a much better indicator of actual load for a static web application.
 
