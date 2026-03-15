@@ -239,18 +239,16 @@ Instead, we use **ALB Request Count Per Target** - this metric tracks how many r
 * Navigate to your ECS cluster in the AWS Console
 * Click on your service name
 * Click the "Auto Scaling" tab
-* Click "Create" under "Service auto scaling"
-
-Configure the capacity settings:
-* **Minimum number of tasks**: 1
-* **Desired number of tasks**: 1
-* **Maximum number of tasks**: 4
-
-Click "Next"
+* Check the box "Use service auto scaling to adjust your service's desired task count"
+* Set the capacity settings:
+  - **Minimum number of tasks**: 1
+  - **Maximum number of tasks**: 4
+* Click "Update"
 
 ## Add a Scaling Policy
 
-* Click "Add scaling policy"
+* In the same "Auto Scaling" tab, scroll down to "Scaling policies"
+* Click "Create"
 * Configure the policy:
   - **Policy name**: `target-tracking-requests`
   - **Policy type**: Target tracking
