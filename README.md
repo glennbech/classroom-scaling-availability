@@ -111,16 +111,10 @@ The repository is already available in your Codespaces environment - no need to 
 * In your Codespaces VS Code editor, using the file explorer on the left side, locate the file called `k6/simpletest.js`
 * Modify the statement ```http.get("");``` and insert your load balancer domain name, prefixed with ```http://``` example: http://glennbech-alb-12121212.eu-west-1.elb.amazonaws.com
 
-In your terminal, navigate to the folder with the load tests by using the following command:
+Run the load test to see that it's working:
 
 ```shell
-cd k6
-```
-
-Run the load test to see that it's working
-
-```shell
- docker run --rm -i grafana/k6 run --vus 10 --duration 30s - <simpletest.js
+docker run --rm -i grafana/k6 run --vus 10 --duration 30s - <k6/simpletest.js
 ```
 * vus are "virtual users" or concurrent threads 
 * duration is as you might expect, how long the test will run
@@ -141,9 +135,9 @@ Some key metrics and example values
 
 ## Extend the duration of the load test
 
-Run another test for 5 minutes, continue with the exercise while this load test is running.  
+Run another test for 5 minutes, continue with the exercise while this load test is running.
 ```shell
- docker run --rm -i grafana/k6 run --vus 10 --duration 5m - <simpletest.js
+docker run --rm -i grafana/k6 run --vus 10 --duration 5m - <k6/simpletest.js
 ```
 
 ## Stop a task
@@ -186,9 +180,9 @@ Your report might look something like this
 
 ## Re-start load tests
 
-From your Codespaces terminal, run another test for 10 minutes
+From your Codespaces terminal, run another test for 5 minutes:
 ```shell
- docker run --rm -i grafana/k6 run --vus 10 --duration 5m - <simpletest.js
+docker run --rm -i grafana/k6 run --vus 10 --duration 5m - <k6/simpletest.js
 ```
 
 ## Stop as single task to simulate a failure
