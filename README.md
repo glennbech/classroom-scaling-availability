@@ -82,6 +82,8 @@ Important! IF prompted - Please make sure you have checked the "New ECS Experien
 * Find the value for the "DNS name"
 * Test the setup by entering the load balancer's DNS in your browser's address bar.
 
+You should see the 2048 game! Feel free to try it out, but don't get too distracted - we have a lab to complete! 🎮
+
 ## Check robustnes! Stop  a task while the test is running 
 
 In You will now see that the system is robust, and responds to system failure. If the one task that is running fails, AWS will launch 
