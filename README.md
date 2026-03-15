@@ -222,12 +222,12 @@ Your report might look something like this
 
 
 * Look more into Ramp ups and how to use options https://k6.io/docs/get-started/running-k6/
-* See you can break the system, reduce the capacity of containers if needed
+* See if you can break the system by reducing the capacity of containers
 * How much can you stress the application? What will break first? Codespaces or the app?
-* Sjekk ut hvordan man kan integrere med Cloud løsningen her ; https://k6.io/docs/cloud/creating-and-running-a-test/cloud-tests-from-the-cli/
+* Check out how to integrate with K6 Cloud for more advanced load testing: https://k6.io/docs/cloud/creating-and-running-a-test/cloud-tests-from-the-cli/
 
-# Conclusion 
+# Conclusion
 
-'* In this lab you saw how we can make a system robust and resilient to failures by implementing load balancing and automatic scaling 
+* In this lab you saw how we can make a system robust and resilient to failures by implementing load balancing and automatic scaling 
 * We also got a brief introduction to load testing with the K6 framework 
 * We dug a bit under the hood of ECS and saw how the concepts of tasks and services work.
