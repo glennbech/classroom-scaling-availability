@@ -16,11 +16,11 @@ In this exercise we will look into ...
 
 ## Description of the infrastructure made for you in the lab 
 
-This Terraform configuration sets up a serverless infrastructure on AWS to run a containerized application using Amazon ECS and Fargate. The core goal is to deploy a simple web application (`crccheck/hello-world`) that is publicly accessible through an Application Load Balancer (ALB).
+This Terraform configuration sets up a serverless infrastructure on AWS to run a containerized application using Amazon ECS and Fargate. The core goal is to deploy a simple web application (`alexwhen/docker-2048` - an interactive 2048 game) that is publicly accessible through an Application Load Balancer (ALB).
 
-The infrastructure leverages an existing Virtual Private Cloud (VPC) and its associated subnets. The ECS cluster serves as the foundational control plane for managing the containerized workload. A task definition specifies how the container is configured, including its compute resources, networking mode, and the image to be deployed. The Fargate launch type is used to abstract server management, allowing the container to run without provisioning or maintaining underlying compute instances.
+The infrastructure uses an existing Virtual Private Cloud (VPC) and its subnets. The ECS cluster manages the containerized workload. A task definition specifies how the container is configured, including its compute resources, networking mode, and the image to deploy. The Fargate launch type handles server management automatically, allowing the container to run without provisioning or maintaining underlying compute instances.
 
-To ensure secure and efficient communication, the configuration uses security groups. The ALB, which serves as the public entry point, is configured to accept traffic over HTTP (port 80) and forward it to the ECS service. The service, in turn, communicates with the container running on port 8000. The container's health is monitored through periodic checks, ensuring high availability and reliability.
+Security groups control network access to the resources. The ALB accepts traffic over HTTP (port 80) and forwards it to the ECS service. The service communicates with the container running on port 80. The container's health is checked periodically to ensure it's working properly.
 
 IAM roles and policies provide the necessary permissions for the ECS tasks, such as pulling container images and sending logs to AWS services. The load balancer distributes incoming requests across tasks and performs health checks to route traffic only to healthy instances.
 
@@ -38,9 +38,16 @@ This setup demonstrates a modern, serverless architecture for deploying a web ap
 
 ## Set up your GitHub Codespaces environment
 
-### Launch Codespaces
+### Fork the Repository
 
 * Navigate to this repository on GitHub
+* Click the "Fork" button in the top-right corner
+* Select your GitHub account as the destination
+* Wait for GitHub to create your fork
+
+### Launch Codespaces
+
+* Navigate to **your forked repository** on GitHub
 * Click the green "Code" button
 * Select the "Codespaces" tab
 * Click "Create codespace on main" (or select an existing codespace if you have one)
@@ -57,7 +64,7 @@ You'll need to access the AWS Management Console to view and manage ECS resource
 * Start by entering your username and password given during class
 * Click the "Sign In" button to proceed
 * Once logged in, you'll land on the AWS Management Console home page
-* Switch to the Stockholm region (eu-north-1) - Look for a region name on the top menu
+* Switch to the Ireland region (eu-west-1) - Look for a region name on the top menu
 
 ## Inspect your load balancer and ECS cluster 
 
@@ -71,7 +78,7 @@ Important! IF prompted - Please make sure you have checked the "New ECS Experien
 * Within the cluster, click on the service named after you. You'll be directed to its details page.
 * On the service detail page, check the "Tasks" tab to ensure the task (container) status is "RUNNING".
 * Navigate back to the "Health & Metrics" Tab
-* Look for the "Load balancer health" section on this page. Click "View Load Balancer ->"
+* Look for the "Load balancer target health" section on this page. Click "View Load Balancer ->"
 * Find the value for the "DNS name"
 * Test the setup by entering the load balancer's DNS in your browser's address bar.
 
@@ -80,14 +87,14 @@ Important! IF prompted - Please make sure you have checked the "New ECS Experien
 In You will now see that the system is robust, and responds to system failure. If the one task that is running fails, AWS will launch 
 a substitute. 
 
-* Navigate back to the ECS cluster page https://eu-north-1.console.aws.amazon.com/ecs/v2/clusters?region=eu-north-1
+* Navigate back to the ECS cluster page (use the search bar to find "ECS" if needed)
 * From the ECS dashboard, select the cluster with your name
 * Under the "Tasks" tab, find the single running task and select the checkbox next to it.
 * Click on the "Stop" Drop down item located on the right side above the running tasks. Select "Stop Selected"
 * In the confirmation dialog box, review the details of the task and click the "Stop" button to stop the task.
 * Wait for a few seconds for the task to stop, and then verify that its status has changed to "STOPPED". You can refresh the page to update the status.
 
-Did you notice that the ECS service started  a task after your stopped the other one? This is because the desired count is set to 1 for the auto scaling group 
+Did you notice that the ECS service started a task after you stopped the other one? Can you find out why? 
 
 This is pretty resiliant, right? But we'll make it better in part 2. 
 
@@ -95,24 +102,18 @@ This is pretty resiliant, right? But we'll make it better in part 2.
 
 K6 is an open-source load testing tool designed for developers to test the performance and reliability of APIs, web applications, and microservices. It is lightweight, scriptable using JavaScript, and integrates easily into CI/CD pipelines, making it ideal for both local testing and automation.
 
-## Clone this repo
+## Navigate to the repository
 
-* In your Codespaces environment, open the terminal (if not already open, use Terminal → New Terminal from the menu)
-* Clone this repository with GIT using the terminal:
-
-```text
-git clone https://github.com/glennbechdevops/scaling-availability
-```
+The repository is already available in your Codespaces environment - no need to clone it separately since you launched Codespaces from your fork.
 
 ## Run a K6 load test against your own load balancer
 
-* In your Codespaces VS Code editor, using the file explorer on the left side, locate the file called `scaling-availability/k6/simpletest.js`
+* In your Codespaces VS Code editor, using the file explorer on the left side, locate the file called `k6/simpletest.js`
 * Modify the statement ```http.get("");``` and insert your load balancer domain name, prefixed with ```http://``` example: http://glennbech-alb-12121212.eu-west-1.elb.amazonaws.com
 
-In your terminal,navigate to the folder with the load tests by using the following commands 
+In your terminal, navigate to the folder with the load tests by using the following command:
 
 ```shell
-cd scaling-availability
 cd k6
 ```
 
