@@ -27,10 +27,10 @@ resource "aws_ecs_task_definition" "task" {
     {
 
       name         = "mycontainer",
-      image        = "crccheck/hello-world",
+      image        = "ealen/echo-server",
       portMappings = [
         {
-          containerPort = 8000,
+          containerPort = 80,
         }
       ]
     }
@@ -81,8 +81,8 @@ resource "aws_security_group" "service_sg" {
   vpc_id = data.aws_vpc.main.id
 
   ingress {
-    from_port       = 8000
-    to_port         = 8000
+    from_port       = 80
+    to_port         = 80
     protocol        = "tcp"
     security_groups = [aws_security_group.alb_sg.id]
   }
@@ -142,7 +142,7 @@ resource "aws_ecs_service" "service" {
   load_balancer {
     target_group_arn = aws_lb_target_group.tg.arn
     container_name   = "mycontainer"
-    container_port   = 8000
+    container_port   = 80
   }
   desired_count = 1
 }
